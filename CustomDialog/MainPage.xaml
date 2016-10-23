@@ -7,8 +7,6 @@
       mc:Ignorable="d">
 
     <Grid>
-
-
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="24">
 

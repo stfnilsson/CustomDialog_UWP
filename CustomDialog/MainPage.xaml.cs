@@ -1,6 +1,8 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using System;
+using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
+using CustomDialog.Views;
 
 namespace CustomDialog
 {
@@ -8,29 +10,34 @@ namespace CustomDialog
     {
         public MainPage()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            var container = sender as Button;
-            if (container != null)
-            {
-                FindName("DialogViewInstance");
-                bool animate = AnimationToggleSwitch.IsOn;
-                DialogViewInstance.Open(container,animate);
-            }
-
+            FindName("DialogViewInstance");
+            OpenDialog(DialogViewInstance, sender as FrameworkElement);
         }
 
-        private void PopUp2Button_OnTapped(object sender, TappedRoutedEventArgs e)
+        private async void PopUp2Button_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            var container = sender as Button;
-            if (container != null)
+            FindName("DialogViewInstance2");
+            DialogViewInstance2.IsBusy = true;
+
+            OpenDialog(DialogViewInstance2, sender as FrameworkElement);
+
+            await Task.Delay(TimeSpan.FromSeconds(2));
+
+            DialogViewInstance2.IsBusy = false;
+        }
+
+        private void OpenDialog(DialogView dialog, FrameworkElement control)
+        {
+            if (control != null)
             {
                 FindName("DialogViewInstance2");
                 bool animate = AnimationToggleSwitch.IsOn;
-                DialogViewInstance2.Open(container,animate);
+                dialog.Open(control, animate);
             }
         }
     }
