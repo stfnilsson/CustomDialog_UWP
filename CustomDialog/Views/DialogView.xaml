@@ -1,0 +1,159 @@
+﻿<UserControl x:Class="CustomDialog.Views.DialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch"
+             Visibility="Collapsed"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             Background="Transparent"
+             mc:Ignorable="d">
+    
+    <UserControl.Resources>
+        <Storyboard x:Name="OpenStoryBoard"
+                    TargetProperty="Opacity"
+                    TargetName="BackGroundColor">
+
+            <DoubleAnimation EnableDependentAnimation="True"
+                             From="0"
+                             SpeedRatio="4"
+                             To="0.4" />
+
+        </Storyboard>
+
+        <Storyboard x:Name="CloseStoryBoard"
+                    TargetProperty="Opacity"
+                    TargetName="BackGroundColor">
+
+            <DoubleAnimation EnableDependentAnimation="True"
+                             From="0.4"
+                             SpeedRatio="4"
+                             To="0" />
+
+
+
+        </Storyboard>
+
+        <!--<Storyboard x:Name="InProgressStoryBoard"
+                    TargetProperty="Opacity"
+                    TargetName="ProgressRingGrid">
+
+            <DoubleAnimation EnableDependentAnimation="True"
+                             From="0"
+                             SpeedRatio="4"
+                             To="0.4" />
+
+        </Storyboard>
+
+        <Storyboard x:Name="NotInProgressStoryBoard"
+                    TargetProperty="Opacity"
+                    TargetName="ProgressRingGrid">
+
+            <DoubleAnimation EnableDependentAnimation="True"
+                             From="0.4"
+                             SpeedRatio="4"
+                             To="0" />
+        </Storyboard>-->
+    </UserControl.Resources>
+
+    <Grid x:Name="MainLayout" Tapped="MainLayout_OnTapped">
+        <Grid.Background>
+            <SolidColorBrush x:Name="BackGroundColor"
+                             Opacity="0.4"
+                             Color="Black" />
+        </Grid.Background>
+
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Adaptive">
+
+                <VisualState x:Name="DesktopState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{x:Bind DesktopMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Storyboard>
+                        <Storyboard TargetProperty="Width" TargetName="MainGrid">
+                            <DoubleAnimation EnableDependentAnimation="True"
+                                             SpeedRatio="2"
+                                             To="{x:Bind DesktopWidth}" />
+
+                        </Storyboard>
+
+                    </VisualState.Storyboard>
+                </VisualState>
+                <VisualState x:Name="TabletState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{x:Bind TabletMinWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Storyboard>
+                        <Storyboard TargetProperty="Width" TargetName="MainGrid">
+                            <DoubleAnimation EnableDependentAnimation="True"
+                                             SpeedRatio="2"
+                                             To="{x:Bind TabletWidth}" />
+
+                        </Storyboard>
+
+                    </VisualState.Storyboard>
+                </VisualState>
+
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Storyboard>
+                        <Storyboard TargetProperty="Width" TargetName="MainGrid">
+                            <DoubleAnimation EnableDependentAnimation="True"
+                                             SpeedRatio="2"
+                                             To="{x:Bind MobileWidth}" />
+                        </Storyboard>
+
+
+                    </VisualState.Storyboard>
+
+                </VisualState>
+
+            </VisualStateGroup>
+
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid>
+
+            <Grid x:Name="MainGrid"
+                  Width="450"
+                  MinHeight="320"
+                  MaxHeight="400"
+                  Margin="0,24,0,24"
+                  Background="White"
+                  IsHitTestVisible="True"
+                  Opacity="1"
+                  Tapped="MainGrid_OnTapped">
+
+                <ContentControl x:Name="ContentLayout" Content="{x:Bind ContentElement}" />
+
+                <Grid x:Name="ProgressRingGrid"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+                    <ProgressRing Width="60"
+                                  Height="60"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Foreground="Black"
+                                  IsActive="True" />
+                </Grid>
+
+
+
+                <AppBarButton Width="52"
+                              Height="52"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Top"
+                              Icon="Cancel"
+                              IsCompact="True"
+                              Tapped="ButtonBase_OnClick" />
+            </Grid>
+
+        </Grid>
+    </Grid>
+</UserControl>
